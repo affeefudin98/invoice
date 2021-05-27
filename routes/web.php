@@ -68,6 +68,7 @@ Route::middleware(['auth', 'can:admin-views'])->group(function(){
     Route::post('/admin/invoices/{invoices}/update-invoice', 'Admin\InvoiceController@update')->name('admin.invoices.update');
     Route::get('/admin/invoices/{invoice}/delete', 'Admin\InvoiceController@destroy')->name('admin.invoice.destroy');
 
+    Route::get('/admin/invoices/{invoice}/download', 'Admin\InvoiceController@download')->name('admin.invoice.download');
 });
 
 

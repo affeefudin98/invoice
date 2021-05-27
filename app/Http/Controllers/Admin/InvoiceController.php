@@ -104,15 +104,16 @@ class InvoiceController extends Controller
         ->with('paymethods', Paymethod::all());
     }
 
-     public function download(Request $request)
+     public function download(Request $request,Invoice $invoice)
      {
-        $invoices = Invoice::all(); 
+        //dd($invoice->id);
+        $data = $invoice->id; 
         
         //load path 
-        $pdf = PDF::loadView('admin.invoices.view',compact('invoice')); 
+        $pdf = PDF::loadView('admin.invoices.download',compact('data')); 
         //return view('invoices.view', compact('invoice'));
         //name of download file 
-        return $pdf->download('Invoice{invoice}.pdf');
+        return $pdf->download('Invoice.pdf');
         //return $pdf->stream();
 
         // For send by email, I use :
