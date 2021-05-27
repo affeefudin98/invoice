@@ -8,6 +8,7 @@ use App\Models\Company;
 use App\Models\Product;
 use App\Models\Paymethod;
 use PDF;
+use DB;
 
 class InvoiceController extends Controller
 {
@@ -106,11 +107,10 @@ class InvoiceController extends Controller
 
      public function download(Request $request,Invoice $invoice)
      {
-        //dd($invoice->id);
-        $data = $invoice->id; 
+       
         
         //load path 
-        $pdf = PDF::loadView('admin.invoices.download',compact('data')); 
+        $pdf = PDF::loadView('admin.invoices.download',compact('invoice')); 
         //return view('invoices.view', compact('invoice'));
         //name of download file 
         return $pdf->download('Invoice.pdf');
@@ -132,7 +132,6 @@ class InvoiceController extends Controller
     public function pdfview(Request $request)
     {
         $invoices = Invoice::all(); 
-        //Chalet::where('user_id',auth()->id())->get());
        
         //load path 
         $pdf = PDF::loadView('admin.invoices.pdf',compact('invoices')); 

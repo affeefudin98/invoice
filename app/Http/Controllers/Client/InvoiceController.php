@@ -105,12 +105,11 @@ class InvoiceController extends Controller
          ->with('paymethods', auth()->user()->paymethods);
     }
 
-     public function download(Request $request)
+     public function download(Request $request, Invoice $invoice)
      {
-         $invoices = Invoice::all(); 
-        
+ 
          //load path 
-         $pdf = PDF::loadView('client.invoices.view',compact('invoice')); 
+         $pdf = PDF::loadView('client.invoices.download',compact('invoice')); 
          //return view('invoices.view', compact('invoice'));
          //name of download file 
          return $pdf->download('Invoice{invoice}.pdf');
