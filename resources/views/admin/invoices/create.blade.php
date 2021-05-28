@@ -65,19 +65,26 @@
                                                 <td>
                                                     <div class="font-weight-bold">
 
-                                                        @foreach ($products as $product)
+                                                        {{-- @foreach ($products as $product)
                                 
                                                         <div class="custom-control custom-checkbox ml-4">
                                                             <input class="custom-control-input" name="products[]" id="{{ $product->id }}" value="{{ $product->id }}" type="checkbox">
                                                             <label class="custom-control-label" for="{{ $product->id }}">{{ $product->name }}</label> 
                                                         
                                                         </div>
-                                                        @endforeach
+                                                        @endforeach --}}
+
+                                                        <table>
+                                                            @foreach($products as $product)
+                                                            <tr>
+                                                                <td><input value="{{ $product->id ?? null }}" {{ $product->value ? 'checked' : null }} data-id="{{ $product->id }}" type="checkbox" class="product-enable" name="products_name[{{ $product->id }}]"></td>
+                                                                <td>{{ $product->name }}</td>
+                                                                <td><input value="{{ $product->value ?? null }}" {{ $product->value ? null : 'disabled' }} data-id="{{ $product->id }}" name="products[{{ $product->id }}]" type="text" class="product-amount form-control" placeholder="Amount"></td>
+                                                            </tr>
+                                                            @endforeach
+                                                        </table>
 
                                                     </div>
-                                                </td>
-                                                <td class="text-right font-weight-bold" required>
-                                                    <input type="number" class="form-control" id="quantity" name="quantity" placeholder="Enter quantity">
                                                 </td>
                                                 <td class="text-right font-weight-bold">$50.00</td>
                                                 <td class="text-right font-weight-bold">$600.00</td>
@@ -181,4 +188,16 @@
     </div>
 @endsection 
 
-
+@section('scripts')
+    @parent
+    <script>
+        $('document').ready(function () {
+            $('.product-enable').on('click', function () {
+                let id = $(this).attr('data-id')
+                let enabled = $(this).is(":checked")
+                $('.product-amount[data-id="' + id + '"]').attr('disabled', !enabled)
+                $('.product-amount[data-id="' + id + '"]').val(null)
+            })
+        });
+    </script>
+@endsection

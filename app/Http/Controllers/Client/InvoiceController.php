@@ -48,7 +48,12 @@ class InvoiceController extends Controller
             'paymethod_id'=>$request->paymethod_id
         ]);
 
-        $invoices->products()->sync($request->products);
+        foreach ($request->products_name as $key => $productName)
+        {
+            $invoices->products()->attach($productName, ['amount'=>$request->products[$key]]);
+        }   
+
+        //$invoices->products()->sync($request->products);
 
         session()->flash('success', 'Invoice created successfully.');
 
@@ -107,7 +112,6 @@ class InvoiceController extends Controller
 
      public function download(Request $request, Invoice $invoice)
      {
- 
          //load path 
          $pdf = PDF::loadView('client.invoices.download',compact('invoice')); 
          //return view('invoices.view', compact('invoice'));

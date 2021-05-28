@@ -12,9 +12,10 @@
     <table id=companies class="table table-bordered">
     <thead>
       <tr>
-        <th>Invoice No</th>
+        <th>Invoice ID</th>
         <th>From</th>
         <th>To</th>
+        <th>Product</th>
         <th>Paymethod</th>
         <th>Note</th>
         <th>Term</th>
@@ -27,6 +28,11 @@
                 <td>{{$invoice->id}}</td>
                 <td>{{$invoice->sender->name}}</td>
                 <td>{{$invoice->receiver->name}}</td>
+                <td>
+                  @foreach ($invoice->products as $product)
+                    <li>{{ $product->name }}</li> <br>
+                  @endforeach
+                </td>
                 <td>{{$invoice->paymethod->bank_name }}</td>
                 <td>{{$invoice->note}}</td>
                 <td>{{$invoice->term}}</td>
@@ -37,3 +43,4 @@
     </table>
   </body>
 </html>
+

@@ -11,19 +11,7 @@
                 </a>
                 <!-- Sidenav Heading (App Views)-->
                 <div class="sidenav-menu-heading">App Views</div>
-                <!-- Sidenav Accordion (Pages)-->
-                <a class="nav-link collapsed" href="javascript:void(0);" data-toggle="collapse" data-target="#collapseInvoice" aria-expanded="false" aria-controls="collapsePages">
-                    <div class="nav-link-icon"><i data-feather="grid"></i></div>
-                    Invoices
-                    <div class="sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
-                </a>
-                <div class="collapse" id="collapseInvoice" data-parent="#accordionSidenav">
-                    <nav class="sidenav-menu-nested nav accordion" id="accordionSidenavPagesMenu">
-
-                        @include('layouts.includes.sidebarInvoice')
-
-                    </nav>
-                </div>
+                
                 <!-- Sidenav Accordion (companies)-->
                 <a class="nav-link collapsed" href="javascript:void(0);" data-toggle="collapse" data-target="#collapseCompany" aria-expanded="false" aria-controls="collapseFlows">
                     <div class="nav-link-icon"><i data-feather="repeat"></i></div>
@@ -65,7 +53,19 @@
 
                     </nav>
                 </div>
-                
+                <!-- Sidenav Accordion (Invoice)-->
+                <a class="nav-link collapsed" href="javascript:void(0);" data-toggle="collapse" data-target="#collapseInvoice" aria-expanded="false" aria-controls="collapsePages">
+                    <div class="nav-link-icon"><i data-feather="grid"></i></div>
+                    Invoices
+                    <div class="sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                </a>
+                <div class="collapse" id="collapseInvoice" data-parent="#accordionSidenav">
+                    <nav class="sidenav-menu-nested nav accordion" id="accordionSidenavPagesMenu">
+
+                        @include('layouts.includes.sidebarInvoice')
+
+                    </nav>
+                </div>
                
                 <!-- Sidenav Heading (Addons)-->
                 <div class="sidenav-menu-heading">Plugins</div>
