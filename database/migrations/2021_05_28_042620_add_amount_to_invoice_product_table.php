@@ -25,8 +25,6 @@ class AddAmountToInvoiceProductTable extends Migration
      */
     public function down()
     {
-        Schema::table('invoice_product', function (Blueprint $table) {
-            //
-        });
+        Schema::dropIfExists('invoice_product');
     }
 }

@@ -14,6 +14,7 @@ class InvoiceController extends Controller
 {
     public function index()
     {
+        //paginate
         //$page=$request->page ?? 1; ltak parameter Request $request klau nk gne
         //$per_page=$request->per_page ?? 10;
         //return view('admin.invoices.index')->with('invoices', Invoice::paginate($per_page));
@@ -38,6 +39,7 @@ class InvoiceController extends Controller
             'sender_id'=>'required',
             'receiver_id'=>'required',
             'term'=>'required',
+            'tax'=>'required',
             'paymethod_id'=>'required'
         ]);
 
@@ -48,13 +50,17 @@ class InvoiceController extends Controller
             'receiver_id'=>$request->receiver_id,
             'note'=>$request->note,
             'term'=>$request->term,
+            'tax'=>$request->tax,
             'paymethod_id'=>$request->paymethod_id
         ]);
+
 
         foreach ($request->products_name as $key => $productName)
         {
             $invoices->products()->attach($productName, ['amount'=>$request->products[$key]]);
-        }   
+        } 
+
+        //$invoices->products()->sync($amount_price, 'amount_price'=>$request->$amount_price); 
         //$invoices->products()->sync($request->products);
 
         session()->flash('success', 'Invoice created successfully.');
@@ -82,6 +88,7 @@ class InvoiceController extends Controller
             'sender_id'=>'required',
             'receiver_id'=>'required',
             'term'=>'required',
+            'tax'=>'required',
             'paymethod_id'=>'required'
         ]);
 
@@ -93,6 +100,7 @@ class InvoiceController extends Controller
         $invoices->receiver_id = $data['receiver_id'];
         $invoices->note = $data['note'];
         $invoices->term = $data['term'];
+        $invoices->tax = $data['tax'];
         $invoices->paymethod_id = $data['paymethod_id'];
 
         $invoices->products()->sync( $request->products );
