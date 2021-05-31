@@ -54,7 +54,14 @@
                                 </div>
                             </div>
                             <div class="card-footer d-flex align-items-center justify-content-between">
-                                <a class="small text-white stretched-link" href="{{ route('admin.invoices.index') }}">View</a>
+                                @auth
+                                    @if (Auth::user()->isAdmin())
+                                        <a class="small text-white stretched-link" href="{{ route('admin.invoices.index') }}">View</a>
+                                    @elseif (Auth::user()->isClient())
+                                        <a class="small text-white stretched-link" href="{{ route('client.invoices.index') }}">View</a>
+                                    @endif
+                                @endauth
+                    
                                 <div class="small text-white"><i class="fas fa-angle-right"></i></div>
                             </div>
                         </div>
@@ -71,7 +78,13 @@
                                 </div>
                             </div>
                             <div class="card-footer d-flex align-items-center justify-content-between">
-                                <a class="small text-white stretched-link" href="{{ route('admin.companies.index') }}">View</a>
+                                @auth
+                                    @if (Auth::user()->isAdmin())
+                                        <a class="small text-white stretched-link" href="{{ route('admin.companies.index') }}">View</a>
+                                    @elseif (Auth::user()->isClient())
+                                        <a class="small text-white stretched-link" href="{{ route('client.companies.index') }}">View</a>
+                                    @endif
+                                @endauth
                                 <div class="small text-white"><i class="fas fa-angle-right"></i></div>
                             </div>
                         </div>
@@ -88,7 +101,13 @@
                                 </div>
                             </div>
                             <div class="card-footer d-flex align-items-center justify-content-between">
-                                <a class="small text-white stretched-link" href="{{ route('admin.products.index') }}">View</a>
+                                @auth
+                                    @if (Auth::user()->isAdmin())
+                                        <a class="small text-white stretched-link" href="{{ route('admin.products.index') }}">View</a>
+                                    @elseif (Auth::user()->isClient())
+                                        <a class="small text-white stretched-link" href="{{ route('client.products.index') }}">View</a>
+                                    @endif
+                                @endauth
                                 <div class="small text-white"><i class="fas fa-angle-right"></i></div>
                             </div>
                         </div>
@@ -105,7 +124,13 @@
                                 </div>
                             </div>
                             <div class="card-footer d-flex align-items-center justify-content-between">
-                                <a class="small text-white stretched-link" href="{{ route('admin.paymethods.index') }}">View</a>
+                                @auth
+                                    @if (Auth::user()->isAdmin())
+                                        <a class="small text-white stretched-link" href="{{ route('admin.paymethods.index') }}">View</a>
+                                    @elseif (Auth::user()->isClient())
+                                        <a class="small text-white stretched-link" href="{{ route('client.paymethods.index') }}">View</a>
+                                    @endif
+                                @endauth
                                 <div class="small text-white"><i class="fas fa-angle-right"></i></div>
                             </div>
                         </div>

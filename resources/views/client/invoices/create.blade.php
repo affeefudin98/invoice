@@ -53,10 +53,8 @@
                                     <table class="table table-borderless mb-0">
                                         <thead class="border-bottom">
                                             <tr class="small text-uppercase text-muted">
-                                                <th scope="col">Item/Service & Description</th>
-                                                <th class="text-right" scope="col">Quantity</th>
-                                                <th class="text-right" scope="col">Discount</th>
-                                                <th class="text-right" scope="col">Amount</th>
+                                                <th scope="col">Item/Service & Amount</th>
+                                                
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -65,49 +63,48 @@
                                                 <td>
                                                     <div class="font-weight-bold">
 
-                                                        @foreach ($products as $product)
+                                                        {{-- @foreach ($products as $product)
                                 
                                                         <div class="custom-control custom-checkbox ml-4">
                                                             <input class="custom-control-input" name="products[]" id="{{ $product->id }}" value="{{ $product->id }}" type="checkbox">
                                                             <label class="custom-control-label" for="{{ $product->id }}">{{ $product->name }}</label> 
                                                         
                                                         </div>
-                                                        @endforeach
+                                                        @endforeach --}}
+
+                                                        <table>
+                                                            @foreach($products as $product)
+                                                            <tr>
+                                                                <td><input value="{{ $product->id ?? null }}" {{ $product->value ? 'checked' : null }} data-id="{{ $product->id }}" type="checkbox" class="product-enable" name="products_name[{{ $product->id }}]"></td>
+                                                                <td>{{ $product->name }}</td>
+                                                                <td><input value="{{ $product->value ?? null }}" {{ $product->value ? null : 'disabled' }} data-id="{{ $product->id }}" name="products[{{ $product->id }}]" type="text" class="product-amount form-control" placeholder="Amount"></td>
+                                                            </tr>
+                                                            @endforeach
+                                                        </table>
 
                                                     </div>
                                                 </td>
-                                                <td class="text-right font-weight-bold" required>
-                                                    <input type="number" class="form-control" id="quantity" name="quantity" placeholder="Enter quantity">
-                                                </td>
-                                                <td class="text-right font-weight-bold">$50.00</td>
-                                                <td class="text-right font-weight-bold">$600.00</td>
-                                            </tr>
-                                            <!-- Invoice item 2-->
-                                            <tr class="border-bottom">
-                                                <td>
-                                                    <div class="font-weight-bold">SB UI Kit Pro</div>
-                                                    <div class="small text-muted d-none d-md-block">A UI toolkit for creating marketing websites and landing pages</div>
-                                                </td>
-                                                <td class="text-right font-weight-bold">20</td>
-                                                <td class="text-right font-weight-bold">$55.00</td>
-                                                <td class="text-right font-weight-bold">$825.00</td>
-                                            </tr>
-                                            
-                                            <!-- Invoice subtotal-->
-                                            <tr>
-                                                <td class="text-right pb-0" colspan="3"><div class="text-uppercase small font-weight-700 text-muted">Subtotal:</div></td>
-                                                <td class="text-right pb-0"><div class="h5 mb-0 font-weight-700">$,1925.00</div></td>
                                             </tr>
                                             <!-- Invoice tax column-->
                                             <tr>
-                                                <td class="text-right pb-0" colspan="3"><div class="text-uppercase small font-weight-700 text-muted">Tax (7%):</div></td>
-                                                <td class="text-right pb-0"><div class="h5 mb-0 font-weight-700">$134.75</div></td>
+                                                <td class="text-left pb-0" colspan="3"><div class="text-uppercase small font-weight-700 text-muted">Tax (%):</div>
+                                                    <select name="tax" id="tax" class="form-control"  required>`
+                                                        <option value="0">0%</option>
+                                                        <option value="0.01">1%</option>
+                                                        <option value="0.02">2%</option>
+                                                        <option value="0.03">3%</option>
+                                                        <option value="0.04">4%</option>
+                                                        <option value="0.05">5%</option>
+                                                        <option value="0.06">6%</option>
+                                                        <option value="0.07">7%</option>
+                                                        <option value="0.08">8%</option>
+                                                        <option value="0.09">9%</option>
+                                                        <option value="0.1">10%</option>
+                                                    </select>
+                                                </td>
+                                                {{-- <td class="text-ri pb-0"><div class="h5 mb-0 font-weight-700">RM 0</div></td> --}}
                                             </tr>
-                                            <!-- Invoice total-->
-                                            <tr>
-                                                <td class="text-right pb-0" colspan="3"><div class="text-uppercase small font-weight-700 text-muted">Total Amount Due:</div></td>
-                                                <td class="text-right pb-0"><div class="h5 mb-0 font-weight-700 text-green">$2059.75</div></td>
-                                            </tr>
+                                            
                                         </tbody>
                                     </table>
                                 </div>
@@ -181,4 +178,16 @@
     </div>
 @endsection 
 
-
+@section('scripts')
+    @parent
+    <script>
+        $('document').ready(function () {
+            $('.product-enable').on('click', function () {
+                let id = $(this).attr('data-id')
+                let enabled = $(this).is(":checked")
+                $('.product-amount[data-id="' + id + '"]').attr('disabled', !enabled)
+                $('.product-amount[data-id="' + id + '"]').val(null)
+            })
+        });
+    </script>
+@endsection

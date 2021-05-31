@@ -17,6 +17,7 @@ class CreateInvoicesTable extends Migration
             $table->id();
             $table->string('date_created');
             $table->string('due_date');
+            $table->double('tax');
             $table->string('note');
             $table->string('term');
 

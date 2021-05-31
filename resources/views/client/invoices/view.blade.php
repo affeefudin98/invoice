@@ -41,10 +41,10 @@
                                     <table class="table table-borderless mb-0">
                                         <thead class="border-bottom">
                                             <tr class="small text-uppercase text-muted">
-                                                <th scope="col">Item/Service & Description</th>
-                                                <th class="text-right" scope="col">Quantity</th>
-                                                <th class="text-right" scope="col">Discount</th>
+                                                <th scope="col">Item/Service</th>
+                                                <th class="text-left" scope="col">Description</th>
                                                 <th class="text-right" scope="col">Amount</th>
+                                                <th class="text-right" scope="col">Price (RM)</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -68,46 +68,68 @@
 
                                                     </div>
                                                 </td>
+                      
+                                                <td class="text-left font-weight-bold">
+                                                    @foreach ($invoice->products as $product)         
+                                                        <div class="pull-left" class="custom-control custom-checkbox ml-4">
+                                                            {{ $product->description }}
+                                                        </div>
+                                                        @endforeach
+                                                </td>
                                                 <td class="text-right font-weight-bold">
-                                                    {{-- <input type="number" class="form-control" id="" name="" placeholder="Enter quantity"> --}}
+                                                    @foreach ($invoice->products as $key=>$product)
+                                                        {{ $product->pivot->amount }} <br>
+                                                    @endforeach
                                                 </td>
-                                                <td class="text-right font-weight-bold">$50.00</td>
-                                                <td class="text-right font-weight-bold">$600.00</td>
-                                            </tr>
-                                            <!-- Invoice item 2-->
-                                            <tr class="border-bottom">
-                                                <td>
-                                                    <div class="font-weight-bold">SB UI Kit Pro</div>
-                                                    <div class="small text-muted d-none d-md-block">A UI toolkit for creating marketing websites and landing pages</div>
+                                                <td class="text-right font-weight-bold">
+                                                    @php
+                                                        $subtotal = 0;
+                                                    @endphp
+                                                    @foreach ($invoice->products as $key=>$product)         
+                                                        <div class="pull-left" class="custom-control custom-checkbox ml-4">
+                                                            @php
+                                                                $amount_price = $product->pivot->amount *  $product->price;
+                                                                $subtotal =  $subtotal + $amount_price;
+                                                            @endphp
+                                                            {{ $amount_price }}
+
+                                                        </div>
+                                                    @endforeach
                                                 </td>
-                                                <td class="text-right font-weight-bold">15</td>
-                                                <td class="text-right font-weight-bold">$55.00</td>
-                                                <td class="text-right font-weight-bold">$825.00</td>
                                             </tr>
-                                            <!-- Invoice item 3-->
-                                            <tr class="border-bottom">
-                                                <td>
-                                                    <div class="font-weight-bold">Pro HTML Bundle</div>
-                                                    <div class="small text-muted d-none d-md-block">A fully coded set of UI resources for creating a comprehensive web application</div>
-                                                </td>
-                                                <td class="text-right font-weight-bold">4</td>
-                                                <td class="text-right font-weight-bold">$125.00</td>
-                                                <td class="text-right font-weight-bold">$500.00</td>
-                                            </tr>
+                                            
                                             <!-- Invoice subtotal-->
                                             <tr>
                                                 <td class="text-right pb-0" colspan="3"><div class="text-uppercase small font-weight-700 text-muted">Subtotal:</div></td>
-                                                <td class="text-right pb-0"><div class="h5 mb-0 font-weight-700">$,1925.00</div></td>
+                                                <td class="text-right pb-0">
+                                                    <div class="h5 mb-0 font-weight-700"> {{ $subtotal }} </div>
+                                                </td>
                                             </tr>
                                             <!-- Invoice tax column-->
                                             <tr>
-                                                <td class="text-right pb-0" colspan="3"><div class="text-uppercase small font-weight-700 text-muted">Tax (7%):</div></td>
-                                                <td class="text-right pb-0"><div class="h5 mb-0 font-weight-700">$134.75</div></td>
+                                                <td class="text-right pb-0" colspan="3"><div class="text-uppercase small font-weight-700 text-muted">Tax:</div></td>
+                                                <td class="text-right pb-0">
+                                                    <div class="h5 mb-0 font-weight-700">
+                                                        @php
+                                                            $tax_subtotal = 0;
+                                                        @endphp
+
+                                                        {{ $tax_subtotal = $subtotal * $invoice->tax }}
+                                                    </div>
+                                                </td>
                                             </tr>
                                             <!-- Invoice total-->
                                             <tr>
                                                 <td class="text-right pb-0" colspan="3"><div class="text-uppercase small font-weight-700 text-muted">Total Amount Due:</div></td>
-                                                <td class="text-right pb-0"><div class="h5 mb-0 font-weight-700 text-green">$2059.75</div></td>
+                                                <td class="text-right pb-0">
+                                                    <div class="h5 mb-0 font-weight-700 text-green" id="total" name="total">
+                                                        @php
+                                                            $total = 0;
+                                                        @endphp
+
+                                                        {{ $total = $subtotal + $tax_subtotal }}
+                                                    </div>
+                                                </td>
                                             </tr>
                                         </tbody>
                                     </table>
