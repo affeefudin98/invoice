@@ -1,26 +1,65 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Models\Invoice;
+use App\Models\Company;
+use App\Models\Product;
+use App\Models\Paymethod;
 use PDF;
+use DB;
 
 class PdfController extends Controller
 {
-    public function index()
+    function index()
     {
-        return view('pdf.index');
+     $invoice = Invoice::all();
+     return view('dynamic_pdf')->with('customer_data', $customer_data);
     }
 
-    public function create()
+    function get_customer_data()
     {
-        $pdf = PDF::loadView('pdf.pdf');
+     $customer_data = DB::table('tbl_customer')
+         ->limit(10)
+         ->get();
+     return $customer_data;
+    }
 
-        $path = public_path('pdf/');
-        $fileName =  time().'.'. 'pdf' ;
-        $pdf->save($path . '/' . $fileName);
+    function pdf()
+    {
+     $pdf = \App::make('dompdf.wrapper');
+     $pdf->loadHTML($this->convert_customer_data_to_html());
+     return $pdf->stream();
+    }
 
-        $pdf = public_path('pdf/'.$fileName);
-        return response()->download($pdf);
+    function convert_customer_data_to_html()
+    {
+        $customer_data = $this->get_customer_data();
+        $output = '
+        <h3 align="center">Customer Data</h3>
+        <table width="100%" style="border-collapse: collapse; border: 0px;">
+        <tr>
+            <th style="border: 1px solid; padding:12px;" width="20%">Name</th>
+            <th style="border: 1px solid; padding:12px;" width="30%">Address</th>
+            <th style="border: 1px solid; padding:12px;" width="15%">City</th>
+            <th style="border: 1px solid; padding:12px;" width="15%">Postal Code</th>
+            <th style="border: 1px solid; padding:12px;" width="20%">Country</th>
+        </tr>
+        ';  
+        foreach($customer_data as $customer)
+        {
+        $output .= '
+        <tr>
+            <td style="border: 1px solid; padding:12px;">'.$customer->CustomerName.'</td>
+            <td style="border: 1px solid; padding:12px;">'.$customer->Address.'</td>
+            <td style="border: 1px solid; padding:12px;">'.$customer->City.'</td>
+            <td style="border: 1px solid; padding:12px;">'.$customer->PostalCode.'</td>
+            <td style="border: 1px solid; padding:12px;">'.$customer->Country.'</td>
+        </tr>
+        ';
+        }
+        $output .= '</table>';
+        return $output;
     }
 }

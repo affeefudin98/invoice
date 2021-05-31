@@ -81,6 +81,7 @@
                                     @endforeach
                                 </tbody>
                             </table>
+                            {{-- {{ $invoices->links()  }} --}}
                         </div>
                         <a class="btn btn-primary" href="{{ route('admin.invoices.pdf') }}">Export to PDF</a>
                     </div>
