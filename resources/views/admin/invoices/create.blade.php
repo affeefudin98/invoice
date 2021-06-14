@@ -62,16 +62,6 @@
                                             <tr class="border-bottom">
                                                 <td>
                                                     <div class="font-weight-bold">
-
-                                                        {{-- @foreach ($products as $product)
-                                
-                                                        <div class="custom-control custom-checkbox ml-4">
-                                                            <input class="custom-control-input" name="products[]" id="{{ $product->id }}" value="{{ $product->id }}" type="checkbox">
-                                                            <label class="custom-control-label" for="{{ $product->id }}">{{ $product->name }}</label> 
-                                                        
-                                                        </div>
-                                                        @endforeach --}}
-
                                                         <table>
                                                             @foreach($products as $product)
                                                             <tr>
