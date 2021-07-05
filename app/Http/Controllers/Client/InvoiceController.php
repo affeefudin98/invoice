@@ -140,16 +140,12 @@ class InvoiceController extends Controller
     {
         $invoices = Auth::user()->invoices; 
 
-        //Chalet::where('user_id',auth()->id())->get());
        
         //load path 
         $pdf = PDF::loadView('client.invoices.pdf',compact('invoices')); 
         //name of download file 
         return $pdf->download('ListInvoices.pdf');
-        //return $pdf->stream();
 
-        // For send by email, I use :
-        // $file = PDF::loadView('invoices', $data)->stream(); $message->attachData($file, $filename, [ 'mime' => 'application/pdf', ]); 
     }
 
 }

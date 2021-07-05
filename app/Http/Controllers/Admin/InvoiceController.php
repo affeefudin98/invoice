@@ -104,7 +104,11 @@ class InvoiceController extends Controller
         $invoices->paymethod_id = $data['paymethod_id'];
 
         $invoices->products()->sync( $request->products );
-
+        
+        foreach ($request->products_name as $key => $productName)
+        {
+            $invoices->products()->attach($productName, ['amount'=>$request->products[$key]]);
+        } 
         $invoices->update($data);
 
 
@@ -154,10 +158,6 @@ class InvoiceController extends Controller
         
         //name of download file 
         return $pdf->download('ListInvoices.pdf');
-        //return $pdf->stream();
-
-        // For send by email, I use :
-        // $file = PDF::loadView('invoices', $data)->stream(); $message->attachData($file, $filename, [ 'mime' => 'application/pdf', ]); 
     }
 
 }

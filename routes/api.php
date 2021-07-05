@@ -2,6 +2,10 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\CompanyApi;
+use App\Http\Controllers\ProductApi;
+use App\Http\Controllers\PaymethodApi;
+use App\Http\Controllers\InvoiceApi;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,6 +18,18 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Route::post('/login', [App\Http\Controllers\API\AuthController::class, 'login']);
+
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+Route::middleware('auth:api')->group(function(){
+    Route::get("companies", [CompanyApi::class, 'getData']);
+    Route::get("products", [ProductApi::class, 'getData']);
+    Route::get("paymethods", [PaymethodApi::class, 'getData']);
+    Route::get("invoices", [InvoiceApi::class, 'getData']);
+});
+
+//Route::get("companies", [CompanyApi::class, 'getData']);
+

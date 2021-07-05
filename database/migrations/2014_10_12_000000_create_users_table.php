@@ -24,6 +24,11 @@ class CreateUsersTable extends Migration
             $table->rememberToken();
             $table->enum('role', ['client', 'admin'])->default('admin');
             $table->timestamps();
+
+            $table->string('api_token', 60)
+            ->unique()
+            ->nullable()
+            ->default(null);
         });
     }
 

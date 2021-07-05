@@ -37,7 +37,7 @@
                                 <div class="row justify-content-between align-items-center">  
                                     <div class="col-5 col-lg-auto text-center text-lg-left">
                                         <!-- Invoice details-->
-                                        <div class="h3 text-white">New Invoice</div>
+                                        <div class="h3 text-white">Invoice {{$invoice->id}}</div>
                                         Date Created:
                                         <input type="date" class="form-control" id="date_created" name="date_created" value="{{ $invoice->date_created }}"/> 
                                     </div>
@@ -62,12 +62,13 @@
                                             <tr class="border-bottom">
                                                 <td>
                                                     <div class="font-weight-bold">
-                                                        <table>
-                                                            @foreach($products as $product)
+                                                        <table>     
+                                                            @foreach($invoice->products as $key=>$product)
                                                             <tr>
-                                                                <td><input value="{{ $product->id ?? null }}" {{ $product->value ? 'checked' : null }} data-id="{{ $product->id }}" type="checkbox" class="product-enable" name="products_name[{{ $product->id }}]"></td>
+                                                                <td><input value="{{ $product->id ?? null }}" {{ $product->name ? 'checked' : null }} data-id="{{ $product->id }}" type="checkbox" class="product-enable" name="products_name[{{ $product->id }}]"></td>
                                                                 <td>{{ $product->name }}</td>
-                                                                <td><input value="{{ $product->value ?? null }}" {{ $product->value ? null : 'disabled' }} data-id="{{ $product->id }}" name="products[{{ $product->id }}]" type="text" class="product-amount form-control" placeholder="Amount"></td>
+                                                                <td><input value="{{ $product->pivot->amount  ?? null }}" {{ $product->name ? null : 'disabled' }} data-id="{{ $product->id }}" name="products[{{ $product->id }}]" type="text" class="product-amount form-control" placeholder="Amount"></td>
+                                                                
                                                             </tr>
                                                             @endforeach
                                                         </table>
